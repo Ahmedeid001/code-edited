@@ -1,0 +1,56 @@
+<style>/* ===============================
+   خلفية الصورة على الهيدر فقط
+   =============================== */
+header.default_header {
+    background-image: url("https://files.easy-orders.net/1765172933978546825.webp") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: transparent !important;
+
+    position: relative;
+    z-index: 2;
+}
+
+/* ===============================
+   شيل أي خلفية بيضاء جوا الهيدر
+   =============================== */
+header.default_header,
+header.default_header * {
+    background-color: transparent !important;
+}
+
+/* ===============================
+   تحسين ظهور اللوجو والأيقونات
+   =============================== */
+header.default_header img {
+    filter: brightness(100%) contrast(105%) !important;
+}
+
+/* ===============================
+   (اختياري) Layer خفيف فوق الصورة
+   لو الصورة غامقة قوي أو فاتحة —
+   يدي نعومة
+   =============================== */
+header.default_header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.15);  
+    z-index: -1;
+}
+
+footer {
+    background-image: url("https://files.easy-orders.net/1765172933978546825.webp") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: transparent !important;
+}
+
+/* إزالة أي خلفية بيضا موجودة داخل عناصر الفوتر */
+footer * {
+    background-color: transparent !important;
+}
+
+</style>
