@@ -1,0 +1,1436 @@
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/201557820024" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 32 32" class="whatsapp-icon" aria-hidden="true">
+      <path d="M16.01 5C10.49 5 6 9.49 6 15.02c0 2.64.96 5.06 2.57 6.96L7 27l5.16-1.52A9.94 9.94 0 0 0 16.01 25C21.52 25 26 20.51 26 14.98 26 9.49 21.52 5 16.01 5Zm0 17.93c-1.59 0-3.15-.43-4.51-1.24l-.32-.19-3.06.9.9-2.98-.21-.31A7.9 7.9 0 0 1 8.1 15c0-4.36 3.55-7.92 7.91-7.92 4.34 0 7.89 3.56 7.89 7.92 0 4.35-3.55 7.93-7.89 7.93Zm4.33-5.94c-.24-.12-1.41-.7-1.63-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.4-1.33-1.64-.14-.24-.02-.37.1-.49.1-.1.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.48-.4-.41-.54-.42l-.46-.01c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2.02 0 1.2.86 2.36.98 2.52.12.16 1.68 2.7 4.16 3.68.58.24 1.03.38 1.38.49.58.18 1.12.16 1.54.1.47-.07 1.41-.58 1.61-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"/>
+    </svg>
+  </a>
+  
+  <style>
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 20px;
+      top: 88%;
+  
+      right: 20px; /* لو عايزه في الشمال استخدم left بدل right */
+      background-color: #25D366;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 65%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      z-index: 9999;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      opacity: 0.95;
+    }
+  
+    .whatsapp-float:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 18px rgba(0,0,0,60%);
+      opacity: 1;
+    }
+  
+    .whatsapp-icon {
+      width: 28px;
+      height: 28px;
+      fill: #ffffff;
+    }
+  
+    @media (max-width: 768px) {
+      .whatsapp-float {
+        width: 60px;
+        height: 60px;
+        bottom: 16px;
+        right: 24px;
+      }
+      .whatsapp-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://files.easy-orders.net/1765067906596392066test.css"
+  />  
+  
+  <script>
+function waitForHeader(callback) {
+    const check = setInterval(() => {
+        const header = document.querySelector("header.default_header");
+        if (header) {
+            clearInterval(check);
+            callback(header);
+        }
+    }, 200);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    waitForHeader(function (header) {
+
+        const messages = [
+            "Choose colors & sizes you love",
+            "Handmade with love in Egypt",
+            "Free Shipping over 8000LE"
+        ];
+
+        /*========================
+           إنشاء الـ Bar بشكل منسق
+        ==========================*/
+        const bar = document.createElement("div");
+        bar.id = "announcement-bar";
+        bar.style = `
+            --bg: 142 135 129;
+            --text: 255 255 255;
+            background: rgb(194 162 134);
+            color: rgb(var(--text));
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Libre Baskerville', serif;
+            position: relative;
+            overflow: hidden;
+            min-height: 40px;
+        `;
+
+        /* زرار Previous */
+        const btnPrev = document.createElement("button");
+        btnPrev.innerHTML = "❮";
+        btnPrev.style = `
+            background: transparent;
+            color: rgb(var(--text));
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 10px;
+            opacity: 0.8;
+        `;
+        btnPrev.className = "ann-btn";
+
+        /* زرار Next */
+        const btnNext = document.createElement("button");
+        btnNext.innerHTML = "❯";
+        btnNext.style = `
+            background: transparent;
+            color: rgb(var(--text));
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 10px;
+            opacity: 0.8;
+        `;
+        btnNext.className = "ann-btn";
+
+        /* الكونتينر */
+        const wrapper = document.createElement("div");
+        wrapper.className = "ann-wrapper";
+        wrapper.style = `
+            position: relative;
+            height: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 250px;
+        `;
+
+        /* الشرائح */
+        const slides = messages.map((msg, index) => {
+            const s = document.createElement("div");
+            s.className = "ann-slide";
+            s.style = `
+                position: absolute;
+                opacity: 0;
+                transform: translateY(10px);
+                white-space: nowrap;
+                transition: opacity .4s ease, transform .4s ease;
+            `;
+            s.textContent = msg;
+
+            if (index === 0) {
+                s.style.opacity = "1";
+                s.style.transform = "translateY(0)";
+            }
+
+            wrapper.appendChild(s);
+            return s;
+        });
+
+        bar.appendChild(btnPrev);
+        bar.appendChild(wrapper);
+        bar.appendChild(btnNext);
+
+        header.parentNode.insertBefore(bar, header);
+
+        /*========================
+             الوظائف + Auto-play
+        ==========================*/
+        let index = 0;
+        let interval;
+
+        function showSlide(i) {
+            slides.forEach(s => {
+                s.style.opacity = "0";
+                s.style.transform = "translateY(10px)";
+            });
+            slides[i].style.opacity = "1";
+            slides[i].style.transform = "translateY(0)";
+        }
+
+        function nextSlide() {
+            index = (index + 1) % slides.length;
+            showSlide(index);
+        }
+
+        function prevSlide() {
+            index = (index - 1 + slides.length) % slides.length;
+            showSlide(index);
+        }
+
+        btnNext.onclick = () => {
+            nextSlide();
+            restartAuto();
+        };
+
+        btnPrev.onclick = () => {
+            prevSlide();
+            restartAuto();
+        };
+
+        function startAuto() {
+            interval = setInterval(nextSlide, 3000);
+        }
+        function restartAuto() {
+            clearInterval(interval);
+            startAuto();
+        }
+
+        startAuto();
+    });
+});
+</script>
+
+  
+  
+  <!-- كود التحكم في ظهور/اختفاء شريط الإعلان -->
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      window.addEventListener("scroll", function () {
+          const bar = document.getElementById("announcement-bar");
+          if (!bar) return;
+  
+          // لو فوق تماماً → يظهر
+          if (window.scrollY <= 0) {
+              bar.style.display = "block";
+              return;
+          }
+  
+          // لو نزلت → يختفي
+          if (window.scrollY > 0) {
+              bar.style.display = "none";
+          }
+      });
+  
+  });
+  </script>
+  
+  
+  
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+      
+      const headerWrapper = document.querySelector(".bg-white.sticky.top-0.w-full.z-30");
+      if (!headerWrapper) return;
+  
+      let lastScroll = window.scrollY;
+  
+      window.addEventListener("scroll", () => {
+          let currentScroll = window.scrollY;
+  
+          if (currentScroll > lastScroll && currentScroll > 80) {
+              // Scroll down → hide header
+              headerWrapper.style.transform = "translateY(-100%)";
+              headerWrapper.style.transition = "transform 0.35s ease";
+          } else {
+              // Scroll up → show header
+              headerWrapper.style.transform = "translateY(0)";
+              headerWrapper.style.transition = "transform 0.35s ease";
+          }
+  
+          lastScroll = currentScroll;
+      });
+  });
+  
+  </script>
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      function waitForFooter(callback) {
+          const check = setInterval(() => {
+              const footer = document.querySelector("footer.bg-skin-primary");
+              if (footer) {
+                  clearInterval(check);
+                  callback(footer);
+              }
+          }, 200);
+      }
+  
+      waitForFooter(function (footer) {
+  
+          /* تغيير العناوين */
+          footer.querySelectorAll("h3").forEach(h => {
+      let title = h.textContent.trim();
+  
+      if (title === "Categories") {
+          h.textContent = "Discover";
+          h.style.fontSize = "19px";
+      }
+  
+      if (title === "Pages") {
+          h.textContent = "Support";
+          h.style.fontSize = "19px";
+      }
+  });
+  
+  
+          /*=============== ⭐ Desktop Contact Us ثابتة ⭐ =================*/
+          const desktopColumn = footer.querySelector(".lg\\:grid-cols-4 > div:first-child");
+  
+          if (desktopColumn) {
+  
+              desktopColumn.innerHTML = `
+                  <a href="/" style="display:block; max-width:50%;">
+    <img src="https://files.easy-orders.net/1765154102710800337.png"
+         style="width:100%; display:block;">
+</a>
+
+                  
+                  <div style="text-align:center;margin-bottom:25px;text-align: left !important;">
+      <h3 class="font-bold text-base" style="margin-bottom:10px;font-size: 19px;">Contact Us</h3>
+  
+      <p style="margin-bottom:5px;">
+          <a href="tel:01557820024" style="text-decoration:none;color: rgb(201 201 201);font-size: small;">
+              01557820024
+          </a>
+      </p>
+  
+      <p>
+          <a href="mailto:kilimmasr@gmail.com" style="text-decoration:none;color: rgb(201 201 201);font-size: small;">
+              kilimmasr@gmail.com
+          </a>
+      </p>
+  </div>
+  
+              `;
+          }
+  
+          /*=============== ⭐ Mobile Contact Us ثابتة ⭐ =================*/
+          const mobileColumn = footer.querySelector(".lg\\:hidden > div:first-child");
+  
+          if (mobileColumn) {
+  
+              mobileColumn.innerHTML = `
+                  <a href="/" style="display:block; max-width:50%;">
+    <img src="https://files.easy-orders.net/1765154102710800337.png"
+         style="width:100%; display:block;">
+</a>
+
+  
+                  <div style="text-align:center;margin-bottom:25px;text-align: left !important;">
+      <h3 class="font-bold text-base" style="margin-bottom:10px;font-size: 19px;">Contact Us</h3>
+  
+      <p style="margin-bottom:5px;">
+          <a href="tel:01557820024" style="text-decoration:none;color: rgb(201 201 201);font-size: small;">
+              01557820024
+          </a>
+      </p>
+  
+      <p>
+          <a href="mailto:kilimmasr@gmail.com" style="text-decoration:none;color: rgb(201 201 201);font-size: small;">
+              kilimmasr@gmail.com
+          </a>
+      </p>
+  </div>
+  
+              `;
+          }
+  
+          console.log("✔ Contact Us ثابتة ومضافة للديسكتوب والموبايل");
+      });
+  });
+  </script>
+  
+  
+  
+  <style>
+  .checkout_btn, .add_to_cart_btn {
+      border-radius: 1px !important;
+      border: 2px solid #13134afa !important; /* الأزرق الغامق */
+      font-family: Alegreya !important;
+  }
+  .rounded-full {
+      border-radius: 2px;
+  }
+  /* زر Buy it now */
+  .checkout_btn {
+      color: transparent !important;        /* إخفاء النص الأصلي */
+      position: relative;
+  }
+  .checkout_btn::before {
+      content: "Buy it now";
+      align-items: center;
+      justify-content: center; 
+      position: absolute;
+      color: white !important;
+  }
+  /* زر Add to cart */
+  .add_to_cart_btn {
+      background-color: white !important;
+      color: #13134afa !important;
+  }
+  /* إخفاء زر السلة داخل بوكس الأيقونات الخاص بالمنتج */
+  .px-3.md\:px-3\.5.py-\[18px\].md\:py-5 button:nth-child(2) {
+      display: none !important;
+  }
+  
+  </style>
+  
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      function initDisclosureIcons() {
+          const buttons = document.querySelectorAll(
+              'button[id^="headlessui-disclosure-button"]'
+          );
+  
+          buttons.forEach(btn => {
+  
+              // إزالة أي SVG موجود
+              const oldIcon = btn.querySelector("svg");
+              if (oldIcon) oldIcon.remove();
+  
+              // إضافة الصورة
+              const icon = document.createElement("img");
+              icon.style.width = "17px";
+              icon.style.height = "17px";
+              icon.style.transition = "0.2s ease";
+              icon.style.marginLeft = "auto";
+              icon.style.filter = "invert(1) brightness(200%)";
+  
+  
+              // تعيين الأيقونة حسب الوضع الحالي
+              const setIcon = () => {
+                  const isOpen = btn.getAttribute("aria-expanded") === "true";
+                  icon.src = isOpen
+                      ? "https://files.easy-orders.net/1764831807459385720.png"   // minus
+                      : "https://files.easy-orders.net/1764831726838562859.png"; // plus
+              };
+  
+              setIcon(); // أول تحميل
+  
+              btn.appendChild(icon);
+  
+              // عند الضغط – انتظر تحديث Headless UI ثم غيّر الصورة
+              btn.addEventListener("click", () => {
+                  setTimeout(setIcon, 50);
+              });
+          });
+      }
+  
+      setTimeout(initDisclosureIcons, 600);
+  });
+  </script>
+  
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      function waitFor(selector, callback) {
+          const interval = setInterval(() => {
+              const el = document.querySelector(selector);
+              if (el) {
+                  clearInterval(interval);
+                  callback(el);
+              }
+          }, 200);
+      }
+  
+      /* ======================================================
+         ⭐ 0) ضبط الهيكل العام للهيدر مثل Shopify Dawn
+         ====================================================== */
+      waitFor("header.default_header .flex.items-center", function (headerRow) {
+  
+          /* جعله Grid بنظام Dawn */
+          headerRow.style.display = "grid";
+          headerRow.style.gridTemplateColumns = "1fr auto 1fr";
+          headerRow.style.alignItems = "center";
+          headerRow.style.width = "100%";
+  
+          console.log("✔ Header converted to Shopify Dawn layout");
+      });
+  
+      /* ======================================================
+         ⭐ 1) MENU BUTTON ICON (Right side) — Shopify style
+         ====================================================== */
+      waitFor("button.bg-white.py-2.lg\\:hidden", function (menuBtn) {
+  
+          /* إزالة القديم */
+          menuBtn.querySelectorAll("svg, img").forEach(x => x.remove());
+  
+          /* إضافة الأيقونة */
+          const img = document.createElement("img");
+          img.src = "https://files.easy-orders.net/1764834736261680665.png";
+          img.style.width = "23px";
+          img.style.height = "23px";
+          img.alt = "Menu";
+  
+          /* نفس مسافة Dawn */
+          menuBtn.style.justifySelf = "start";
+          menuBtn.style.marginLeft = "23px";
+  
+          menuBtn.appendChild(img);
+      });
+  
+      /* ======================================================
+         ⭐ 2) SEARCH ICON — Shopify Dawn size & left section
+         ====================================================== */
+      waitFor("a[href='/search']", function (searchParent) {
+  
+          /* حذف أيقونات */
+          searchParent.querySelectorAll("svg, img").forEach(x => x.remove());
+  
+          const img = document.createElement("img");
+          img.src = "https://files.easy-orders.net/1764834183466007100.png";
+          img.style.width = "25px";
+          img.style.height = "25px";
+          img.alt = "Search";
+  
+          searchParent.style.marginRight = "-3px"; // Dawn spacing
+  
+          searchParent.insertBefore(img, searchParent.firstChild);
+      });
+  
+      /* ======================================================
+         ⭐ 3) CART ICON — Shopify Dawn size & left alignment
+         ====================================================== */
+      waitFor("button.group.relative.flex.items-center", function (cartBtn) {
+  
+          const svg = cartBtn.querySelector("svg");
+          if (svg) svg.remove();
+  
+          const img = document.createElement("img");
+          img.src = "https://files.easy-orders.net/1764833875337858398.png";
+          img.style.width = "22px";
+          img.style.height = "22px";
+          img.alt = "Cart";
+  
+          cartBtn.style.marginRight = "20px"; // Dawn spacing
+  
+          cartBtn.insertBefore(img, cartBtn.firstChild);
+      });
+  
+      /* ======================================================
+         ⭐ 4) ضبط مكان أيقونات (Search + Cart)
+         ====================================================== */
+      waitFor(".ms-auto.flex.items-center", function (iconsWrapper) {
+  
+          iconsWrapper.style.justifySelf = "end";
+          iconsWrapper.style.display = "flex";
+          iconsWrapper.style.alignItems = "center";
+          iconsWrapper.style.gap = "15px"; // نفس Dawn
+      });
+  
+      /* ======================================================
+         ⭐ 5) ضبط مكان اللوجو — وسط الصفحة بالظبط
+         ====================================================== */
+      waitFor(".default_header_logo", function (logoArea) {
+          logoArea.style.justifySelf = "center";
+      });
+  
+  });
+  </script>
+  <style>
+  header svg {
+      visibility: hidden !important;
+  }
+  /* البوكس الخارجي */
+  .px-3.md\:px-3\.5.py-\[18px\].absolute {
+      background: rgba(255, 255, 255, 0.7) !important;
+      backdrop-filter: blur(3px);
+      border-radius: 50px !important;
+      padding: 10px 14px !important;
+  
+      /* shadow ناعم */
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
+  
+      /* حركة شيك */
+      transition: all 0.25s ease-in-out;
+  }
+  
+  /* Hover effect */
+  .px-3.md\:px-3\.5.py-\[18px\].absolute:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.9) !important;
+  }
+  .rounded-full {
+      border-radius: 1px;
+      /* filter: blur(1px); */
+  }
+  .rounded-\[14px\] {
+      border-radius: 4px;
+  }
+  /* container */
+  .flex.items-center.justify-center.text-heading.mt-3\.5 {
+      justify-content: flex-start !important; /* بدل center → left */
+  }
+  
+  /* السعر نفسه */
+  .flex.items-center.gap-1.text-\[\#131316\] {
+      justify-content: flex-start !important;
+      text-align: left !important;
+  }
+  .absolute.flex.items-center.justify-center.-top-\[2px\].-right-\[2px\] {
+      border-radius: 17px !important;
+  }
+  .flex.justify-center.items-center.gap-3.border.rounded-full.px-2py-2\.5 md\:py-3.me-2{
+  border-radius: 2px !important;}
+  /*
+  .text-center {
+      text-align: left;
+  }*/
+  .ql-editor.leading-7{
+      text-align: left;
+  
+  }  
+  .flex.justify-start.gap-2.bg-\[\#F3F4F8\].p-2.md\:p-2\.5.rounded-2xl.overflow-auto{
+      border-radius: 0.1rem;
+  }
+  /* تصغير زرار Subscribe داخل الـ newsletter block */
+  /* توسيط الزرار داخل السكشن */
+  .w-full.max-w-7xl .bg-skin-primary form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  /* تنسيق حجم + ستايل الزرار */
+  .w-full.max-w-7xl .bg-skin-primary form button[type="submit"] {
+      padding: 6px 14px !important;
+      font-size: 14px !important;
+      border-radius: 4px !important;
+      max-width: 180px !important;
+      width: auto !important;
+      background-color: white;
+      text-align: center;
+      color: black;
+      font-weight: bold;
+      
+  }
+  /* جعل الـ form عناصره جنب بعض */
+  .w-full.max-w-7xl .bg-skin-primary form {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: space-evenly !important;
+      gap: 2px !important;
+      flex-wrap: wrap; /* مهم لو الشاشات الصغيرة */
+  }
+  
+  /* تكبير حقل البريد */
+  .w-full.max-w-7xl .bg-skin-primary form input[type="email"] {
+      flex: 1 1 65% !important;
+      min-width: 220px !important;
+  }
+  
+  /* الزرار */
+  .w-full.max-w-7xl .bg-skin-primary form button[type="submit"] {
+      flex: 1 1 25% !important;
+      min-width: 120px !important;
+  }
+  
+  
+  
+  /* تغيير لون النصوص التي كانت بالأبيض */
+  .w-full.max-w-7xl .bg-skin-primary h3,
+  .w-full.max-w-7xl .bg-skin-primary p {
+      color: #0A3D62 !important; /* الأزرق الغامق */
+  }
+  
+  /* تغيير placeholder */
+  .w-full.max-w-7xl .bg-skin-primary input::placeholder {
+      color: #61758A !important;
+  }
+  
+  /* لو عايز الإيميل بوردر أزرق بسيط */
+  .w-full.max-w-7xl .bg-skin-primary input[type="email"] {
+      border-color: #0A3D62 !important;
+  }
+  
+  /* تغيير النص الأبيض داخل الزرار ليكون أزرق */
+  .w-full.max-w-7xl .bg-skin-primary button[type="submit"] {
+      color: #0A3D62 !important;
+      background-color: #ffffff !important; /* زرار أبيض */
+  }
+  .\[\&_input\]\:\!border-transparent input, .\[\&_textarea\]\:\!border-transparent textarea {
+      border-color: #dbdbdb !important;
+  }
+  .\[\&\>div\]\:rounded-\[14px\]>div {
+      border-radius: 14px;
+      border-color: #2222;
+  }
+  .text-lg.font-medium.text-gray-900{font-weight: 700;
+  }
+  .shipping_cost.font-bold.flex.items-center.gap-0\.5{font-weight: 400;}
+  .radio_circle.h-3.w-3.rounded-full.transition-colors.duration-300.ease-in-out.!bg-skin-primary{border-radius: 20px;}
+  .w-full.max-w-7xl.mx-auto.px-4{display: none;}
+  .radio_container {border-radius: 20px !important;}
+  .radio_circle {border-radius: 20px !important;}
+  div[class*="border-t"][class*="bg-skin-primary"][class*="py-8"] {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+  }
+  /* ————————————————————————
+     1) حركة المنيو من الشمال → لليمين
+     ———————————————————————— */
+  
+  /* المنيو نفسه */
+  .relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl {
+      transition: transform 0.35s ease-in-out !important;
+  }
+  
+  /* لو الثيم بيستخدم translate-x-full للخروج يمين،
+     إحنا هنبدّله بخروج شمال */
+  .relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl.translate-x-full {
+      transform: translateX(-100%) !important;
+  }
+  
+  /* لو الثيم بيستخدم translate-x-0 للدخول */
+  .relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl.translate-x-0 {
+      transform: translateX(0) !important;
+  }
+  /* كونتينر السوشيال */
+  .mobile-social-links {
+      padding: 1.5rem 1.25rem 1rem;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+  }
+  
+  .mobile-social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: opacity 0.25s ease;
+  }
+  
+  .mobile-social-icon img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+  }
+  
+  .mobile-social-icon:hover {
+      opacity: 0.8;
+  }
+  
+  
+  a[href*="facebook.com/share/15rNmrGBgE"] {
+      background: transparent !important;
+  }
+  a[href*="instagram.com/kilimma"] {
+      background: transparent !important;
+  }
+  /* البلور للخلفية أثناء فتح المنيو */
+  .fixed.inset-0.z-40.flex.lg\:hidden[data-headlessui-state="open"] {
+      backdrop-filter: blur(6px) !important;
+      -webkit-backdrop-filter: blur(6px) !important;
+      background-color: rgba(0, 0, 0, 0.15) !important; /* غمقان بسيط */
+      transition: backdrop-filter 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  }
+  
+  /* وقت الغلق – يبقى كله شفاف */
+  .fixed.inset-0.z-40.flex.lg\:hidden {
+      backdrop-filter: blur(0px) !important;
+      -webkit-backdrop-filter: blur(0px) !important;
+      background-color: rgba(0, 0, 0, 0) !important;
+      transition: backdrop-filter 0.25s ease-in-out, background-color 0.25s ease-in-out;
+  }
+  /* تصغير عرض منيو الموبايل */
+  .fixed.inset-0.z-40.flex.lg\:hidden 
+  > .relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl {
+      width: 70% !important;
+      max-width: 70% !important;
+  }
+  /* إخفاء السهم القديم */
+  /* اخفاء السهم القديم */
+  .default_category_card_name svg {
+      display: none !important;
+  }
+  
+  /* تجهيز العنوان ليقبل السهم inline */
+  .default_category_card_name {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px; /* المسافة الدقيقة بين السهم والكلمة */
+          justify-content: center;
+  
+  }
+  
+  /* السهم الجديد */
+  .default_category_card_name::after {
+      content: "";
+      display: inline-block;
+      width: 18px;   /* حجم السهم */
+      height: 18px;
+      background-image: url("https://files.easy-orders.net/1764919481375108412.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      transition: transform 0.25s ease;
+  }
+  
+  /* hover نفس حركة السهم القديم */
+  .group:hover .default_category_card_name::after {
+      transform: scale(1.15);
+  }
+  
+  /* إخفاء كلمة Rugs */
+  .home_section_top_container > span {
+      color: transparent !important;   /* إخفاء الكلمة */
+      visibility: hidden !important;   /* لكن العنصر يفضل واخد مكانه */
+      display: block;
+      height: 1.2em;                   /* تعديل الارتفاع حسب الخط */
+  }
+  
+  /* إخفاء الـ SVG اللي تحت كلمة Arrivals */
+  .home_section_top_title span svg {
+      display: none !important;
+  }
+  /* ينطبق فقط على صفحة الدفع */
+  /* ============================
+     1) إزالة كل عناصر الهيدر في checkout
+     ============================ */
+  
+  /* نخفي الـ top bar */
+  .checkout_bg_right ~ header #announcement-bar {
+      display: none !important;
+  }
+  
+  /* نخفي كل العناصر الزيادة في الهيدر */
+  .checkout_bg_right ~ header .default_header_container > div:first-child,  /* زرار المنيو */
+  .checkout_bg_right ~ header .default_header_container > div:last-child a[href="/search"], /* زرار السيرش */
+  .checkout_bg_right ~ header nav > div:last-child  /* اللينكات الكبيرة في الديسكتوب */
+  {
+      display: none !important;
+  }
+  
+  /* نخلي الهيكل بسيط */
+  .checkout_bg_right ~ header .default_header_container {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+  }
+  
+  /* نرجّع اللوجو يظهر */
+  .checkout_bg_right ~ header .default_header_logo {
+      display: flex !important;
+  }
+  
+  
+  .checkout_bg_right ~ header button {
+      display: flex !important;
+  }
+  
+  /* نقلّل ارتفاع الهيدر لو عايز شكل أنضف */
+  .checkout_bg_right ~ header {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+  }
+  div.border-t.border-gray-200.pt-6 dd {
+      font-size: 20px !important;   /* حجم الرقم */
+      font-weight: 700 !important;
+  }
+  div.border-t.border-gray-200.pt-6 dd span {
+      font-size: 14px !important;   /* حجم العملة */
+      font-weight: 300 !important;
+  }
+  footer.bg-white.bg-skin-primary.text-skin-a11y {
+      background-color: #674846;
+  }
+  .sphinx_product_images_grid.grid.grid-cols-2.gap-\[18px\] {
+      grid-template-columns: repeat(6, 1fr);
+  }
+  
+  .product-thumbs {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+  }
+  
+  .product-thumbs img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      opacity: 0.6;
+      border: 2px solid transparent;
+      transition: all 0.25s ease;
+  }
+  
+  .product-thumbs img.active {
+      opacity: 1;
+      border-color: #13134A;
+  }
+  
+  
+  </style>
+  </style>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      function getRealSwiper(swiperElem) {
+          return swiperElem.swiper || swiperElem.__swiper__ || null;
+      }
+  
+      function initThumbs() {
+          const swiperElem = document.querySelector(".swiper");
+          if (!swiperElem) return;
+  
+          const swiper = getRealSwiper(swiperElem);
+  
+          // لو السلايدر لسه ما اشتغلش → استنى
+          if (!swiper) {
+              setTimeout(initThumbs, 200);
+              return;
+          }
+  
+          const thumbs = document.querySelectorAll(".product-thumbs img");
+          if (!thumbs.length) return;
+  
+          // 🔥 الضغط على الثامبنيل → يروح للسلايد الحقيقي
+          thumbs.forEach((thumb) => {
+              thumb.addEventListener("click", () => {
+                  const index = parseInt(thumb.dataset.index);
+  
+                  swiper.slideToLoop(index, 300);
+  
+                  // تحديث Active
+                  thumbs.forEach(t => t.classList.remove("active"));
+                  thumb.classList.add("active");
+              });
+          });
+  
+          // 🔥 لما السلايدر يتحرك → فعّل الثامبنيل
+          swiper.on("slideChange", () => {
+              const i = swiper.realIndex;
+              thumbs.forEach(t => t.classList.remove("active"));
+              const active = document.querySelector(`.product-thumbs img[data-index='${i}']`);
+              if (active) active.classList.add("active");
+          });
+      }
+  
+      // شغل بعد التحميل
+      setTimeout(initThumbs, 600);
+  
+      // راقب تغييرات الصفحة (SPA)
+      const obs = new MutationObserver(() => initThumbs());
+      obs.observe(document.body, { childList: true, subtree: true });
+  
+  });
+  </script>
+  
+  
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      function updateButton() {
+          const btn = document.querySelector(
+              "button[type='submit']"
+          );
+          if (btn && btn.textContent.trim() !== "Send") {
+              btn.textContent = "Send";
+          }
+          return btn;
+      }
+  
+      // محاولة أولى بعد التحميل
+      let btn = updateButton();
+  
+      // لو الزرار اتغير تاني — نراقبه ونعيد اسمه
+      const observer = new MutationObserver(() => updateButton());
+  
+      // نستنى لحد ما يظهر فعليًا
+      const wait = setInterval(() => {
+          btn = updateButton();
+          if (btn) {
+              observer.observe(btn, { childList: true, characterData: true, subtree: true });
+              clearInterval(wait);
+          }
+      }, 200);
+  });
+  </script>
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const observer = new MutationObserver(() => {
+  
+          const drawer = document.querySelector('.fixed.inset-0.z-40.flex.lg\\:hidden .relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl');
+          if (!drawer) return;
+  
+          const pagesBlock = drawer.querySelector('.divide-y.pb-8');
+          if (!pagesBlock) return;
+  
+          if (drawer.querySelector('.mobile-social-links')) return;
+  
+          const social = document.createElement("div");
+          social.className = "mobile-social-links";
+  
+          social.innerHTML = `
+              <a href="https://www.facebook.com/share/15rNmrGBgE/?mibextid=wwXIfr" 
+                 class="mobile-social-icon" target="_blank" rel="noreferrer">
+                  <img src="https://files.easy-orders.net/1764917783790320903.png" alt="Facebook">
+              </a>
+  
+              <a href="https://www.instagram.com/kilimmasr?igsh=cTFwMHF0aTlweDJh" 
+                 class="mobile-social-icon" target="_blank" rel="noreferrer">
+                  <img src="https://files.easy-orders.net/1764917804273238637.png" alt="Instagram">
+              </a>
+          `;
+  
+          pagesBlock.appendChild(social);
+      });
+  
+      observer.observe(document.body, { childList: true, subtree: true });
+  });
+  </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      function isCheckoutPage() {
+          return window.location.pathname.includes("checkout") ||
+                 document.querySelector(".checkout_container");
+      }
+  
+      function toggleHeaderForCheckout() {
+          const isCheckout = isCheckoutPage();
+  
+          const bar = document.querySelector("#announcement-bar");
+          const menu = document.querySelector('img[alt="Menu"]')?.closest("button");
+          const search = document.querySelector('a[href="/search"]');
+          const desktopNav = document.querySelector(".lg\\:block");
+          const rightSide = document.querySelector('.ms-auto.flex.items-center.flex-1');
+  
+          // الفوتر
+          const fullFooter = document.querySelector("footer.bg-white.bg-skin-primary");
+  
+          // === تحديد زرار السلة ===
+          let cartButton = null;
+          if (rightSide) {
+              rightSide.querySelectorAll("button,a").forEach(el => {
+                  const badge = el.querySelector("div span"); 
+                  if (badge && /^(\d+)$/.test(badge.innerText.trim())) {
+                      cartButton = el;
+                  }
+              });
+          }
+  
+          // ❗ دلوقتي مش عايزين نستثني زرار السلة → يتشال زي باقي العناصر
+          // لذلك مش هنستخدم cartButton في الاستثناء
+  
+          // لو لسه زرار السلة محمّلش → متخفيش العناصر
+          if (isCheckout && !cartButton) {
+              return;
+          }
+  
+          if (isCheckout) {
+              if (bar) bar.style.display = "none";
+              if (menu) menu.style.display = "none";
+              if (search) search.style.display = "none";
+              if (desktopNav) desktopNav.style.display = "none";
+  
+              if (rightSide) {
+                  rightSide.querySelectorAll("a,button").forEach(el => {
+                      el.style.display = "none";   // 🔥 شيل كل حاجة بما فيها السلة
+                  });
+              }
+  
+              // إخفاء الفوتر بالكامل
+              if (fullFooter) fullFooter.style.display = "none";
+          }
+  
+          else {
+              // رجّع كل حاجة زي ما كانت
+              if (bar) bar.style.display = "";
+              if (menu) menu.style.display = "";
+              if (search) search.style.display = "";
+              if (desktopNav) desktopNav.style.display = "";
+  
+              if (rightSide) {
+                  rightSide.querySelectorAll("a,button").forEach(el => {
+                      el.style.display = "";
+                  });
+              }
+  
+              if (fullFooter) fullFooter.style.display = "";
+          }
+      }
+  
+      // Run on load
+      setTimeout(toggleHeaderForCheckout, 300);
+  
+      // Observe SPA
+      const observer = new MutationObserver(() => {
+          toggleHeaderForCheckout();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+  
+  });
+  </script>
+  <style>
+#announcement-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 18px !important;
+    padding: 8px 10px !important;
+    min-height: 42px !important;
+    overflow: hidden !important;
+}
+
+/* السهمين */
+#announcement-bar .ann-btn {
+    font-size: 18px !important;
+    line-height: 1 !important;
+    padding: 0 6px !important;
+    opacity: 0.85;
+}
+
+/* الكونتينر اللي ماسك النص */
+#announcement-bar .ann-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 20px !important;
+    width: 100% !important;        /* يملى المساحة كلها */
+    max-width: 220px !important;    /* يمنع النص يطلع برا */
+    overflow: hidden !important;
+}
+
+/* النص */
+#announcement-bar .ann-slide {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+/* ⭐ تحسين الموبايل */
+@media (max-width: 480px) {
+
+    #announcement-bar {
+        padding: 8px 5px !important;
+        gap: 12px !important;
+    }
+
+    #announcement-bar .ann-wrapper {
+        max-width: 160px !important;  /* أهم تعديل — يمنع خروج النص */
+        height: 18px !important;
+    }
+
+    #announcement-bar .ann-slide {
+        font-size: 12.5px !important;
+    }
+
+    #announcement-bar .ann-btn {
+        font-size: 16px !important;
+        padding: 0 4px !important;
+    }
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  function initAccordion() {
+    const container = document.querySelector(".product_tabs_elegance_container");
+    if (!container) return;
+
+    // لو اتعمل قبل كده — خلاص
+    if (document.querySelector(".km-accordion")) return;
+
+    const tabs = container.querySelector('[role="tablist"]');
+    const panelsWrapper = tabs?.nextElementSibling;
+    if (!tabs || !panelsWrapper) return;
+
+    const tabBtns = tabs.querySelectorAll("[role='tab']");
+    const panelSpans = panelsWrapper.querySelectorAll("[role='tabpanel']");
+
+    // نخفي التاب-سيستم الأصلي
+    tabs.style.display = "none";
+    panelsWrapper.style.display = "none";
+
+    // إنشاء الأكورديون
+    const accordion = document.createElement("div");
+    accordion.className = "km-accordion";
+
+    tabBtns.forEach((btn, index) => {
+      const title = btn.textContent.trim();
+      const panel = panelSpans[index];
+
+      if (!panel) return;
+
+      const clonedContent = panel.innerHTML; // ← ننسخ المحتوى فقط بدون تحريك العنصر
+
+      const item = document.createElement("div");
+      item.className = "km-acc-item";
+
+      const header = document.createElement("div");
+      header.className = "km-acc-header";
+      header.innerHTML = `
+        <span>${title}</span>
+        <svg class="km-acc-icon" width="20" height="20" viewBox="0 0 20 20">
+          <path d="m5 8 5 5 5-5" stroke="#111" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      `;
+
+      const panelWrap = document.createElement("div");
+      panelWrap.className = "km-acc-panel";
+
+      const inner = document.createElement("div");
+      inner.className = "km-acc-panel-inner";
+      inner.innerHTML = clonedContent;
+
+      panelWrap.appendChild(inner);
+
+      header.addEventListener("click", () => {
+        const open = item.classList.contains("open");
+        item.classList.toggle("open");
+
+        if (open) {
+          panelWrap.style.maxHeight = "0px";
+        } else {
+          panelWrap.style.maxHeight = inner.scrollHeight + "px";
+        }
+      });
+
+      item.appendChild(header);
+      item.appendChild(panelWrap);
+      accordion.appendChild(item);
+    });
+
+    container.appendChild(accordion);
+  }
+
+  setTimeout(initAccordion, 600);
+  new MutationObserver(initAccordion).observe(document.body, { childList: true, subtree: true });
+
+});
+</script>
+
+<style>
+.km-accordion {
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 20px;
+  background: #fff;
+}
+
+.km-acc-item {
+      border-bottom: 1px solid #cbcaca;
+    border-top: 1px solid #cbcaca;
+}
+
+.km-acc-header {
+  width: 100%;
+  padding: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 16px;
+  background: transparent;
+  transition: background 0.25s ease;
+}
+
+.km-acc-icon {
+  transition: transform 0.25s ease;
+}
+
+.km-acc-item.open .km-acc-icon {
+  transform: rotate(180deg);
+}
+
+.km-acc-panel {
+  border: none !important;
+  background: transparent;
+  box-shadow: none;
+}
+
+.km-acc-panel-inner {
+  padding: 16px;
+}
+.km-acc-logo {
+  width: 25px;
+    height: 25px;
+    object-fit: contain;
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: -15px;
+}
+footer {
+    background-image: url("https://files.easy-orders.net/1765172933978546825.webp") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: transparent !important;
+}
+
+/* إزالة أي خلفية بيضا موجودة داخل عناصر الفوتر */
+footer * {
+    background-color: transparent !important;
+}
+/* ===============================
+   خلفية الصورة على الهيدر فقط
+   =============================== */
+header.default_header {
+    background-image: url("https://files.easy-orders.net/1765172933978546825.webp") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: transparent !important;
+
+    position: relative;
+    z-index: 2;
+}
+
+/* ===============================
+   شيل أي خلفية بيضاء جوا الهيدر
+   =============================== */
+header.default_header,
+header.default_header * {
+    background-color: transparent !important;
+}
+
+/* ===============================
+   تحسين ظهور اللوجو والأيقونات
+   =============================== */
+header.default_header img {
+    filter: brightness(100%) contrast(105%) !important;
+}
+
+/* ===============================
+   (اختياري) Layer خفيف فوق الصورة
+   لو الصورة غامقة قوي أو فاتحة —
+   يدي نعومة
+   =============================== */
+header.default_header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.15);  
+    z-index: -1;
+}
+
+
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* ===============================
+       1) تحريك الـ Accordion فوق الأزرار
+       =============================== */
+    function relocateAccordion() {
+        const accordion = document.querySelector(".km-accordion");
+        const buttonsSection = document.querySelector(".mt-5.flex.flex-col");
+
+        if (!accordion || !buttonsSection) return;
+
+        // لو اتحرك قبل كده
+        if (accordion.dataset.moved === "true") return;
+
+        // ننقله فوق الأزرار
+        buttonsSection.parentNode.insertBefore(accordion, buttonsSection);
+        accordion.dataset.moved = "true";
+
+        console.log("✔ Accordion moved above buttons successfully.");
+    }
+
+    /* ===============================
+       2) إغلاق كل Panels عند تحميل الصفحة
+       =============================== */
+    function closeAccordionsOnLoad() {
+        const panels = document.querySelectorAll(".km-acc-panel");
+
+        panels.forEach(panel => {
+            panel.style.maxHeight = "0px";
+            panel.classList.remove("open");
+
+            // إزالة ستايلات HeadlessUI التخريبية
+            panel.style.position = "";
+            panel.style.height = "";
+            panel.style.overflow = "hidden";
+        });
+    }
+
+    /* ===============================
+       3) إضافة اللوجو بجانب Description
+       =============================== */
+    function addLogoToDescription() {
+        const firstHeader = document.querySelector(".km-acc-item .km-acc-header span");
+        if (!firstHeader) return;
+
+        // لو اللوجو موجود مسبقًا
+        if (firstHeader.querySelector(".km-acc-logo")) return;
+
+        const logo = document.createElement("img");
+        logo.src = "https://files.easy-orders.net/1765148390087803457.png";
+        logo.className = "km-acc-logo";
+        firstHeader.prepend(logo);
+    }
+
+    /* ===============================
+       تشغيل كل الوظائف
+       =============================== */
+    setTimeout(relocateAccordion, 600);
+    setTimeout(closeAccordionsOnLoad, 500);
+    addLogoToDescription();
+
+    /* ===============================
+       مراقبة DOM (لـ React / SPA)
+       =============================== */
+    const observer = new MutationObserver(() => {
+        relocateAccordion();
+        closeAccordionsOnLoad();
+        addLogoToDescription();
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+});
+</script>
