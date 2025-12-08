@@ -1,5 +1,4 @@
 
-<style>
 /* 1. تنظيف الهيدر (إخفاء SVG القديم) */
 .default_header svg {
     display: none !important;
@@ -103,4 +102,4 @@ body.is-home-page .sticky.top-0.header-scrolled .custom-header-icon {
 .border-t.bg-skin-primary.text-skin-a11y.py-8.max-lg\:pb-20.\!bg-white.\!text-skin-primary {
     display: none !important;
 }
-</style>
+
