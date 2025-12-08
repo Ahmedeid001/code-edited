@@ -1,4 +1,3 @@
-<script>
 document.addEventListener("DOMContentLoaded", function () {
 
     // === 1. دالة الانتظار (من كودك الأصلي) ===
@@ -130,4 +129,3 @@ document.addEventListener("DOMContentLoaded", function () {
     checkUrlChange();
     setInterval(checkUrlChange, 200);
 });
-</script>
