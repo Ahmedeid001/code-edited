@@ -1,0 +1,92 @@
+/* ======================================================
+   تنسيق زر Back to Top
+   ====================================================== */
+#custom-back-to-top {
+    position: fixed;
+    bottom: 30px;        /* المسافة من الأسفل */
+    right: 30px;         /* المسافة من اليمين */
+    width: 50px;         /* عرض الزر */
+    height: 50px;        /* ارتفاع الزر */
+    background-color: #131316; /* لون الخلفية (أسود مثل الهوية) */
+    color: #ffffff;      /* لون الأيقونة */
+    border: none;
+    border-radius: 50%;  /* لجعله دائري */
+    cursor: pointer;
+    z-index: 9999;       /* لضمان ظهوره فوق كل العناصر */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* ظل خفيف */
+    
+    /* إعدادات الحركة والظهور */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* الكلاس الذي يضيفه الجافاسكريبت عند السكرول */
+#custom-back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* تأثير عند المرور بالماوس */
+#custom-back-to-top:hover {
+    background-color: #000000;
+    transform: translateY(-5px); /* يرتفع قليلاً للأعلى */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* تنسيق الأيقونة (SVG) */
+#custom-back-to-top svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor; /* ليأخذ اللون الأبيض من الزر */
+}
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    /* ======================================================
+       إنشاء زر Back to Top
+       ====================================================== */
+    
+    // 1. إنشاء عنصر الزر
+    const backToTopBtn = document.createElement("button");
+    backToTopBtn.id = "custom-back-to-top";
+    backToTopBtn.setAttribute("aria-label", "Back to top");
+    
+    // 2. وضع الـ SVG الذي أرسلته داخله
+    backToTopBtn.innerHTML = `
+        <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 407.436 407.436">
+                <path d="M203.718 91.567L0 294.621l21.179 21.248 182.539-181.945 182.54 181.945 21.178-21.248z"></path>
+            </svg>
+        </div>
+    `;
+
+    // 3. إضافة الزر إلى جسم الصفحة
+    document.body.appendChild(backToTopBtn);
+
+    // 4. وظيفة النقر (الصعود للأعلى بنعومة)
+    backToTopBtn.addEventListener("click", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+    // 5. وظيفة السكرول (الإظهار والإخفاء)
+    window.addEventListener("scroll", function () {
+        // يظهر الزر بعد نزول 300 بكسل
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add("visible");
+        } else {
+            backToTopBtn.classList.remove("visible");
+        }
+    });
+});
