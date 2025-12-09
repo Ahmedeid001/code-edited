@@ -1,96 +1,60 @@
+اسفل كلاس ايقونات
+
+
+
+<style>
+.km-payment-icons img.km-pay-icon {
+    width: 45px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.9;
+    transition: opacity .2s ease;
+}
+
+.km-payment-icons img.km-pay-icon:hover {
+    opacity: 1;
+}
+
+</style>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-    /* ======================================================
-       إضافة أيقونات الدفع في الفوتر
-       ====================================================== */
-    
-    // التأكد من عدم إضافتها مسبقاً
-    if (document.querySelector('.custom-payment-icons')) return;
 
-    const footerBottom = document.querySelector('footer .border-t.text-center') || document.querySelector('footer > div:last-child');
-
-    if (footerBottom) {
-        // 1. إنشاء حاوية الأيقونات
-        const iconsContainer = document.createElement('div');
-        iconsContainer.className = 'custom-payment-icons';
-        
-        // 2. قائمة الروابط (نفس الروابط التي أرسلتها)
-        const iconsData = [
-            { name: 'mastercard', src: 'https://white.a.bigcontent.io/v1/static/mastercard_1' },
-            { name: 'visa', src: 'https://white.a.bigcontent.io/v1/static/visa_1' },
-            { name: 'paypal', src: 'https://white.a.bigcontent.io/v1/static/payPal_2' },
-            { name: 'applepay', src: 'https://white.a.bigcontent.io/v1/static/applePay' },
-            { name: 'googlepay', src: 'https://white.a.bigcontent.io/v1/static/google-pay_1' }
-        ];
-
-        // 3. إنشاء الصور وإضافتها للحاوية
-        iconsData.forEach(icon => {
-            const img = document.createElement('img');
-            img.src = icon.src;
-            img.alt = icon.name;
-            img.loading = 'lazy';
-            img.className = 'payment-icon-img';
-            iconsContainer.appendChild(img);
-        });
-
-        // 4. وضع الحاوية قبل نص "Powered By"
-        const pElement = footerBottom.querySelector('p');
-        if (pElement) {
-            footerBottom.insertBefore(iconsContainer, pElement);
-        } else {
-            footerBottom.appendChild(iconsContainer);
-        }
+    // وظيفة انتظار عنصر يظهر في الصفحة
+    function waitFor(selector, callback) {
+        const checkExist = setInterval(() => {
+            const element = document.querySelector(selector);
+            if (element) {
+                clearInterval(checkExist);
+                callback(element);
+            }
+        }, 200);
     }
+
+    // إضافة ايقونات الدفع بعد بلوك السوشيال 
+    waitFor(".flex.flex-col.gap-6.mt-6", function (socialBlock) {
+
+        // لو اتحط قبل كده — ميتكررش
+        if (document.querySelector(".km-payment-icons")) return;
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "km-payment-icons";
+        wrapper.style.display = "flex";
+        wrapper.style.gap = "12px";
+        wrapper.style.marginTop = "15px";
+        wrapper.style.flexWrap = "wrap";
+
+        wrapper.innerHTML = `
+            <img src="https://white.a.bigcontent.io/v1/static/mastercard_1" alt="Mastercard" class="km-pay-icon">
+            <img src="https://white.a.bigcontent.io/v1/static/visa_1" alt="Visa" class="km-pay-icon">
+            <img src="https://white.a.bigcontent.io/v1/static/payPal_2" alt="PayPal" class="km-pay-icon">
+            <img src="https://white.a.bigcontent.io/v1/static/applePay" alt="Apple Pay" class="km-pay-icon">
+            <img src="https://white.a.bigcontent.io/v1/static/google-pay_1" alt="Google Pay" class="km-pay-icon">
+        `;
+
+        // الحقن بعد السوشيال بلوك مباشرة
+        socialBlock.insertAdjacentElement("afterend", wrapper);
+    });
+
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ======================================================
-   تنسيق أيقونات الدفع في الفوتر
-   ====================================================== */
-.custom-payment-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;           /* مسافة بين الأيقونات */
-    margin-bottom: 15px; /* مسافة أسفل الأيقونات (فوق النص) */
-    flex-wrap: wrap;     /* لضمان عدم الخروج عن الشاشة في الموبايل */
-}
-
-.payment-icon-img {
-    height: 32px;        /* ارتفاع موحد للأيقونات */
-    width: auto;         /* العرض يتناسب تلقائياً */
-    object-fit: contain;
-    background-color: rgba(255, 255, 255, 0.9); /* خلفية بيضاء شفافة قليلاً لبروز الشعار */
-    padding: 3px 6px;    /* حواف داخلية */
-    border-radius: 4px;  /* زوايا ناعمة */
-    transition: transform 0.2s ease;
-}
-
-/* تكبير بسيط عند المرور بالماوس */
-.payment-icon-img:hover {
-    transform: scale(1.1);
-}
-
-/* تحسين شكل الفوتر السفلي لاستيعاب الأيقونات */
-footer > div:last-child {
-    padding-top: 20px !important;
-    padding-bottom: 20px !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+</script>
