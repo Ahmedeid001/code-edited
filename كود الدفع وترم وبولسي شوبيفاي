@@ -1,0 +1,135 @@
+<style>
+.km-payment-icons img.km-pay-icon {
+    width: 45px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.9;
+    transition: opacity .2s ease;
+
+
+}
+
+.km-payment-icons img.km-pay-icon:hover {
+    opacity: 1;
+}
+.km-payment-icons{justify-content: center;}
+
+
+
+
+.km-legal-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    opacity: 0.9;
+    align-items: center;
+    justify-content: center;
+}
+
+.km-legal-links a {
+    font-size: 14px;
+    color: #1b1b1b;
+    text-decoration: none;
+    transition: color .2s ease, opacity .2s ease;
+    position: relative;
+    padding: 0 8px;
+}
+
+.km-legal-links a:hover {
+    color: #747373;
+    opacity: 1;
+}
+
+/* السهم اللي بين اللينكات */
+.km-legal-links a:not(:last-child)::after {
+    content: "•";
+    position: absolute;
+    right: -6px;
+    color: #1b1b1b;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // وظيفة انتظار عنصر يظهر في الصفحة
+    function waitFor(selector, callback) {
+        const checkExist = setInterval(() => {
+            const element = document.querySelector(selector);
+            if (element) {
+                clearInterval(checkExist);
+                callback(element);
+            }
+        }, 200);
+    }
+
+    // إضافة ايقونات الدفع بعد بلوك السوشيال 
+    waitFor(".flex.flex-col.gap-6.mt-6", function (socialBlock) {
+
+        // لو اتحط قبل كده — ميتكررش
+        if (document.querySelector(".km-payment-icons")) return;
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "km-payment-icons";
+        wrapper.style.display = "flex";
+        wrapper.style.gap = "12px";
+        wrapper.style.marginTop = "15px";
+        wrapper.style.flexWrap = "wrap";
+
+        wrapper.innerHTML = `
+            <img src="https://white.a.bigcontent.io/v1/static/mastercard_1" alt="Mastercard" class="km-pay-icon">
+            <img src="https://white.a.bigcontent.io/v1/static/visa_1" alt="Visa" class="km-pay-icon">
+            <img src="https://white.a.bigcontent.io/v1/static/payPal_2" alt="PayPal" class="km-pay-icon">
+            <img src="https://white.a.bigcontent.io/v1/static/applePay" alt="Apple Pay" class="km-pay-icon">
+            <img src="https://white.a.bigcontent.io/v1/static/google-pay_1" alt="Google Pay" class="km-pay-icon">
+        `;
+
+        // الحقن بعد السوشيال بلوك مباشرة
+        socialBlock.insertAdjacentElement("afterend", wrapper);
+    });
+
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    function waitFor(selector, callback) {
+        const check = setInterval(() => {
+            const el = document.querySelector(selector);
+            if (el) {
+                clearInterval(check);
+                callback(el);
+            }
+        }, 200);
+    }
+
+    // ننتظر km-payment-icons يظهر الأول
+    waitFor(".km-payment-icons", function (paymentsBlock) {
+
+        // منع التكرار
+        if (document.querySelector(".km-legal-links")) return;
+
+        const legal = document.createElement("div");
+        legal.className = "km-legal-links";
+
+        legal.innerHTML = `
+            <a href="/pages/terms-and-conditions">Terms & Conditions</a>
+            <a href="/pages/privacy-policy">Privacy Policy</a>
+            <a href="/pages/cookie-policy">Cookie Policy</a>
+            <a href="/pages/accessibility">Accessibility</a>
+        `;
+
+        // إضافة بعد icons مباشرة
+        paymentsBlock.insertAdjacentElement("afterend", legal);
+    });
+
+});
+
+
+
+</script>
+
