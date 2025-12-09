@@ -1,0 +1,258 @@
+<style>
+/* parent wrapper */
+.km-footer-extra {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ====== Child 1: Payment Icons ====== */
+
+.km-payment-icons {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.km-payment-icons img {
+    height: 28px;
+    width: auto;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
+.km-payment-icons img:hover {
+    opacity: 1;
+}
+
+
+/* ====== Child 2: Legal Links ====== */
+
+.km-legal-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.km-legal-links a {
+    font-size: 15px;
+    color: #191919;
+    text-decoration: none;
+    opacity: .8;
+}
+
+.km-legal-links a:hover {
+    opacity: 1;
+    color: #000;
+}
+
+.km-legal-links .divider {
+    font-size: 18px;
+    font-weight: bold;
+    color: #494949;
+}
+
+/* ====== Desktop layout – Side-By-Side ====== */
+
+
+/* Parent wrapper desktop */
+/* Parent wrapper desktop */
+.km-footer-extra-dt {
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+/* Payment icons */
+.km-payment-icons-dt img {
+    height: 28px;
+    margin: 0 8px;
+    object-fit: contain;
+}
+
+.km-payment-icons-dt {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Legal links */
+.km-legal-links-dt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.km-legal-links-dt a {
+    color: inherit;
+}
+
+.km-legal-links-dt .divider {
+    font-weight: bold;
+    margin: 0 8px;
+}
+
+/* Desktop only */
+@media (max-width: 1024px) {
+    .km-footer-extra-dt {
+        display: none;
+    }
+}
+
+.border-t.bg-skin-primary.text-skin-a11y.py-8.max-lg\:pb-20.\!bg-white.\!text-skin-primary {
+    display: none !important;
+}
+
+</style>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function waitFor(selector, callback) {
+        const check = setInterval(() => {
+            const el = document.querySelector(selector);
+            if (el) {
+                clearInterval(check);
+                callback(el);
+            }
+        }, 200);
+    }
+
+    // ننتظر social icons تظهر
+    waitFor(".flex.flex-col.gap-6.mt-6", function (socialBlock) {
+
+        // منع التكرار
+        if (document.querySelector(".km-footer-extra")) return;
+
+        // === Parent Wrapper ===
+        const wrapper = document.createElement("div");
+        wrapper.className = "km-footer-extra";
+
+        // === Child 1: Payment icons container ===
+        const payment = document.createElement("div");
+        payment.className = "km-payment-icons";
+        payment.innerHTML = `
+            <img src="https://white.a.bigcontent.io/v1/static/mastercard_1" alt="mastercard">
+            <img src="https://white.a.bigcontent.io/v1/static/visa_1" alt="visa">
+            <img src="https://white.a.bigcontent.io/v1/static/payPal_2" alt="paypal">
+            <img src="https://white.a.bigcontent.io/v1/static/applePay" alt="applepay">
+            <img src="https://white.a.bigcontent.io/v1/static/google-pay_1" alt="googlepay">
+        `;
+
+        // === Child 2: Legal links container ===
+        const legal = document.createElement("div");
+        legal.className = "km-legal-links";
+        legal.innerHTML = `
+            <a href="/pages/terms-and-conditions">Terms & Conditions</a>
+            <span class="divider">•</span>
+            <a href="/pages/privacy-policy">Privacy Policy</a>
+            <span class="divider">•</span>
+            <a href="/pages/cookie-policy">Cookie Policy</a>
+            <span class="divider">•</span>
+            <a href="/pages/accessibility">Accessibility</a>
+        `;
+        const copyrightD = document.createElement("div");
+        copyrightD.className = "km-copyright-dt";
+        copyrightD.innerHTML = `
+            © ${new Date().getFullYear()} Kilim Masr.
+        `;
+
+        // إضافة الأطفال للـ parent
+        wrapper.appendChild(payment);
+        wrapper.appendChild(legal);
+        wrapper.appendChild(copyrightD);
+
+
+        // إدراج الـ wrapper بعد بلوك السوشيال
+        socialBlock.insertAdjacentElement("afterend", wrapper);
+    });
+
+});
+</script>
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function waitFor(selector, callback) {
+        const check = setInterval(() => {
+            const el = document.querySelector(selector);
+            if (el) {
+                clearInterval(check);
+                callback(el);
+            }
+        }, 200);
+    }
+
+    /* ======================================================
+       1) نسخة الديسكتوب — داخل قسم hidden lg:grid
+       ====================================================== */
+
+    waitFor(".hidden.lg\\:grid.lg\\:grid-cols-4", function (desktopGrid) {
+
+        if (document.querySelector(".km-footer-extra-dt")) return;
+
+        // Parent wrapper
+        const wrapperDT = document.createElement("div");
+        wrapperDT.className = "km-footer-extra-dt";
+
+        // Payment icons
+        const paymentDT = document.createElement("div");
+        paymentDT.className = "km-payment-icons-dt";
+        paymentDT.innerHTML = `
+            <img src="https://white.a.bigcontent.io/v1/static/mastercard_1">
+            <img src="https://white.a.bigcontent.io/v1/static/visa_1">
+            <img src="https://white.a.bigcontent.io/v1/static/payPal_2">
+            <img src="https://white.a.bigcontent.io/v1/static/applePay">
+            <img src="https://white.a.bigcontent.io/v1/static/google-pay_1">
+        `;
+
+        // Legal links
+        const legalDT = document.createElement("div");
+        legalDT.className = "km-legal-links-dt";
+        legalDT.innerHTML = `
+            <a href="/pages/terms-and-conditions">Terms & Conditions</a>
+            <span class="divider">•</span>
+            <a href="/pages/privacy-policy">Privacy Policy</a>
+            <span class="divider">•</span>
+            <a href="/pages/cookie-policy">Cookie Policy</a>
+            <span class="divider">•</span>
+            <a href="/pages/accessibility">Accessibility</a>
+        `;
+
+        // Copyright block
+        const copyrightDT = document.createElement("div");
+        copyrightDT.className = "km-copyright-dt";
+        copyrightDT.innerHTML = `
+            © ${new Date().getFullYear()} Kilim Masr — All Rights Reserved.
+        `;
+
+        // Append children
+        wrapperDT.appendChild(paymentDT);
+        wrapperDT.appendChild(legalDT);
+        wrapperDT.appendChild(copyrightDT);
+
+        // Insert after grid
+        desktopGrid.insertAdjacentElement("afterend", wrapperDT);
+    });
+
+});
+</script>
+
