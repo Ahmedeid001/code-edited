@@ -1,0 +1,847 @@
+<!-- ========================================
+     FINAL OPTIMIZED CSS
+     ======================================== -->
+<style>
+/* ====================================
+   1. HEADER STYLES
+   ==================================== */
+.default_header svg {
+    display: none !important;
+}
+
+.custom-header-icon {
+    display: block;
+    transition: filter 0.3s ease;
+}
+
+.flex-1.flex.items-center.gap-3 {
+    margin-left: 20px;
+}
+
+.default_header button.group.relative div.absolute {
+    display: flex !important;
+    z-index: 10;
+}
+
+/* ====================================
+   2. HOME PAGE HEADER LOGIC
+   ==================================== */
+/* ============================================= */
+/* الحل النهائي لمشكلة المنيو فوق اللوجو (في الهوم وكل الصفحات) */
+/* ============================================= */
+
+/* 1. الهيدر دايمًا fixed وفوقه كل حاجة إلا المنيو */
+.sticky.top-0 {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 997 !important;   /* أقل من المنيو بدرجة واحدة */
+    transition: background 0.4s ease, transform 0.3s ease !important;
+}
+
+/* 2. المنيو الجانبي فوق كل حاجة في الموقع (حتى فوق الهيدر) */
+.relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl,
+[data-drawer],
+.drawer,
+aside[role="dialog"],
+[class*="drawer"],
+[class*="sidebar"],
+[class*="offcanvas"] {
+    z-index: 9999 !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100dvh !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    transition: transform 0.35s cubic-bezier(0.32, 0, 0, 1) !important;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2) !important;
+}
+
+/* 3. حالة الفتح والقفل الصحيحة (حسب Tailwind/Easy-Orders) */
+/* === المنيو يطلع من الشمال (من اليسار لليمين) - الكود الصحيح الوحيد === */
+.relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl,
+[data-drawer],
+.drawer,
+aside[role="dialog"] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;           /* من الشمال */
+    right: auto !important;
+    height: 100dvh !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    z-index: 9999 !important;
+    background: #ffffff !important;
+    /* مخفي على الشمال في البداية */
+    transform: translateX(-100%) !important;
+    transition: transform 0.35s cubic-bezier(0.32, 0, 0, 1) !important;
+    box-shadow: 8px 0 30px rgba(0,0,0,0.18) !important; /* ظل على اليمين */
+}
+
+/* لما يفتح → يظهر من اليسار */
+.relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl.translate-x-0,
+.relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl[style*="translateX(0)"],
+body.drawer-open .relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl,
+.relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl:not(.translate-x-full) {
+    transform: translateX(0) !important;
+}
+
+/* 4. لما المنيو مفتوح → ندفن الهيدر تحت (حل اللاج في الهوم) */
+body:has(.relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl.translate-x-0),
+body:has(.relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl:not(.translate-x-full)),
+body.drawer-open,
+body[class*="drawer-open"],
+body[class*="menu-open"] {
+    --header-zindex: 10 !important;
+}
+
+.sticky.top-0 {
+    z-index: var(--header-zindex, 997) !important;
+}
+
+/* 5. إضافة حركة ناعمة جدًا للمنيو */
+.relative.flex.w-full.max-w-xs.flex-col.overflow-y-auto.bg-white.pb-12.shadow-xl {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Transparent State */
+body.is-home-page .sticky.top-0.header-transparent {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+}
+
+body.is-home-page .sticky.top-0.header-transparent .default_header,
+body.is-home-page .sticky.top-0.header-transparent .default_header_container,
+body.is-home-page .sticky.top-0.header-transparent .bg-white {
+    background-color: transparent !important;
+}
+
+body.is-home-page .sticky.top-0.header-transparent img:not(.custom-header-icon) {
+    background: transparent !important;
+}
+
+body.is-home-page .sticky.top-0.header-transparent .default_header a,
+body.is-home-page .sticky.top-0.header-transparent .default_header button {
+    color: #ffffff !important;
+}
+
+body.is-home-page .sticky.top-0.header-transparent .custom-header-icon {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Scrolled State */
+body.is-home-page .sticky.top-0.header-scrolled {
+    background-image: url("https://files.easy-orders.net/1765172933978546825.webp") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+body.is-home-page .sticky.top-0.header-scrolled .default_header,
+body.is-home-page .sticky.top-0.header-scrolled .default_header_container,
+body.is-home-page .sticky.top-0.header-scrolled .bg-white {
+    background-color: transparent !important;
+}
+
+body.is-home-page .sticky.top-0.header-scrolled .default_header a,
+body.is-home-page .sticky.top-0.header-scrolled .default_header button {
+    color: #ffffff !important;
+}
+
+body.is-home-page .sticky.top-0.header-scrolled .custom-header-icon {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Non-Home Pages */
+body:not(.is-home-page) .sticky.top-0 {
+    background-image: url("https://files.easy-orders.net/1765172933978546825.webp") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+body:not(.is-home-page) .sticky.top-0 .default_header,
+body:not(.is-home-page) .sticky.top-0 .default_header_container,
+body:not(.is-home-page) .sticky.top-0 .bg-white {
+    background-color: transparent !important;
+}
+
+body:not(.is-home-page) .sticky.top-0 .default_header a,
+body:not(.is-home-page) .sticky.top-0 .default_header button {
+    color: #ffffff !important;
+}
+
+body:not(.is-home-page) .sticky.top-0 .custom-header-icon {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* ====================================
+   3. FOOTER STYLES
+   ==================================== */
+footer {
+    background-image: url("https://files.easy-orders.net/1765172933978546825.webp") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    color: #F0EAD6;
+}
+
+footer * {
+    background-color: transparent !important;
+}
+
+footer .max-w-7xl {
+    max-width: 100% !important;
+    color: #F0EAD6;
+}
+
+footer .py-8,
+footer .lg\:py-12 {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+}
+
+@media (min-width: 1024px) {
+    footer .lg\:grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 40px !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        padding: 0 0 0 150px;
+    }
+}
+
+.flex.flex-wrap.gap-3 {
+    filter: invert(1) brightness(90%);
+    justify-content: center;
+}
+
+.border-t.bg-skin-primary.text-skin-a11y.py-8.max-lg\:pb-20.\!bg-white.\!text-skin-primary {
+    display: none !important;
+}
+
+.flex-shrink-0.w-10.h-10.flex.items-center.justify-center.bg-skin-primary.rounded-full.\!bg-white.\[\&\>svg\]\:\!text-skin-primary {
+    background-color: transparent !important;
+}
+
+/* Footer Extra Content */
+.km-footer-extra {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.km-payment-icons {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.km-payment-icons img {
+    height: 28px;
+    width: auto;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
+
+.km-payment-icons img:hover {
+    opacity: 1;
+}
+
+.km-legal-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.km-legal-links a {
+    font-size: 15px;
+    color: #F0EAD6;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.km-legal-links a:hover {
+    opacity: 1;
+}
+
+.km-legal-links .divider {
+    font-size: 18px;
+    font-weight: bold;
+    color: #c3a5a5;
+}
+
+@media (max-width: 1023px) {
+    .km-footer-extra .km-copyright-dt {
+        border-top: 1px solid rgb(255 255 255);
+        padding-top: 7px;
+        margin-top: -9px;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.km-footer-extra-dt {
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.km-payment-icons-dt {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.km-payment-icons-dt img {
+    height: 28px;
+    margin: 0 8px;
+    object-fit: contain;
+}
+
+.km-legal-links-dt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.km-legal-links-dt a {
+    color: inherit;
+}
+
+.km-legal-links-dt .divider {
+    font-weight: bold;
+    margin: 0 8px;
+}
+
+@media (max-width: 1024px) {
+    .km-footer-extra-dt {
+        display: none;
+    }
+}
+
+@media (min-width: 1024px) {
+    .km-footer-extra-dt {
+        display: none;
+    }
+    .flex.flex-wrap.gap-3 {
+        justify-content: left !important;
+    }
+}
+
+.km-footer-img-desktop {
+    width: 130px !important;
+}
+
+/* ====================================
+   4. PRODUCT PAGE ACCORDION
+   ==================================== */
+.km-accordion-desc {
+    width: 100%;
+    margin: 20px 0 10px 0;
+    background: #F0EAD6;
+    border-radius: 10px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.km-acc-header {
+    width: 100%;
+    padding: 12px 16px;
+    background: #f6f5f4;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 12px;
+}
+
+.km-acc-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.km-acc-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.arrow-icon {
+    width: 22px;
+    height: 22px;
+    transition: transform 0.25s ease;
+    opacity: 0.8;
+}
+
+.km-acc-header.open .arrow-icon {
+    transform: rotate(180deg);
+    opacity: 1;
+}
+
+.km-acc-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    padding: 0 18px;
+}
+
+.km-acc-body p,
+.km-acc-body ul,
+.km-acc-body div {
+    margin-bottom: 12px;
+}
+
+/* ====================================
+   5. PRODUCT PAGE BUTTONS
+   ==================================== */
+.flex.items-center.gap-7 {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+}
+
+.checkout_btn {
+    border-radius: 0 !important;
+    background-color: #78041e !important;
+    color: #f6f5f4 !important;
+}
+
+.add_to_cart_btn {
+    background-color: transparent !important;
+    color: #78041e !important;
+    border-radius: 1px !important;
+    border: 2px solid #78041e !important;
+}
+
+.add_to_cart_btn:hover,
+.checkout_btn:hover {
+    background-color: #13134a !important;
+    color: white !important;
+    transition: 0.25s ease;
+}
+
+.product_quantity_box,
+.flex.justify-center.items-center.gap-3.border.rounded-full.px-2.py-2\.5,
+.flex.justify-center.items-center.gap-3.border.rounded-full.px-2.md\:py-3 {
+    border-radius: 1px !important;
+    border: 1px solid #8d8d8d !important;
+    background-color: transparent !important;
+}
+
+.flex.justify-center.items-center.gap-3.border button {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+}
+
+.flex.justify-center.items-center.gap-3.border:hover {
+    background-color: #13134a10 !important;
+}
+
+/* ====================================
+   6. TABS STYLING
+   ==================================== */
+.flex.justify-start.gap-2.bg-\[\#F3F4F8\].p-2.md\:p-2\.5.rounded-2xl.overflow-auto {
+    font-family: sans-serif;
+    text-decoration-line: none;
+    background-color: #f6f5f4;
+}
+
+.ql-editor.leading-7 {
+    text-align: left;
+}
+
+/* ====================================
+   7. GENERAL OPTIMIZATIONS
+   ==================================== */
+.flex.flex-1.flex-col {
+    background-color: #e9e5e366;
+}
+
+[class*="animate-"],
+[style*="animation"],
+[style*="transition"] {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+}
+
+/* === حل مشكلة الهيدر يغطي الصورة في صفحات المنتج === */
+
+
+
+
+/* دفع كل المحتوى لتحت بسبب الهيدر الـ fixed */
+body:not(.is-home-page) main,
+body:not(.is-home-page) .flex.flex-1.flex-col {
+    padding-top: 60px !important; /* اضبط الرقم حسب ارتفاع الهيدر عندك */
+}
+
+</style>
+
+<!-- ========================================
+     FINAL OPTIMIZED JAVASCRIPT
+     ======================================== -->
+<script>
+(function() {
+    'use strict';
+    
+    // ========================================
+    // SHARED UTILITIES
+    // ========================================
+    const Utils = {
+        waitFor(selector, callback) {
+            if (document.querySelector(selector + '[data-js-processed="true"]')) return;
+            const interval = setInterval(() => {
+                const el = document.querySelector(selector);
+                if (el && !el.hasAttribute('data-js-processed')) {
+                    clearInterval(interval);
+                    el.setAttribute('data-js-processed', 'true');
+                    callback(el);
+                }
+            }, 200);
+        }
+    };
+    
+    // ========================================
+    // HEADER MODULE
+    // ========================================
+    const Header = {
+        init() {
+            // Grid Layout
+            Utils.waitFor("header.default_header .flex.items-center", (headerRow) => {
+                headerRow.style.display = "grid";
+                headerRow.style.gridTemplateColumns = "1fr auto 1fr";
+                headerRow.style.alignItems = "center";
+                headerRow.style.width = "100%";
+            });
+            
+            // Menu Button
+            Utils.waitFor("button.bg-white.py-2.lg\\:hidden", (menuBtn) => {
+                menuBtn.querySelectorAll("svg, img").forEach(x => x.remove());
+                menuBtn.classList.remove("bg-white");
+                
+                const img = document.createElement("img");
+                img.src = "https://files.easy-orders.net/1765166038824688914.png";
+                img.style.width = "23px";
+                img.style.height = "23px";
+                img.alt = "Menu";
+                img.classList.add("custom-header-icon");
+                menuBtn.style.justifySelf = "start";
+                menuBtn.style.marginLeft = "0";
+                menuBtn.style.backgroundColor = "transparent";
+                menuBtn.appendChild(img);
+            });
+            
+            // Search Button
+            Utils.waitFor("a[href='/search']", (searchParent) => {
+                searchParent.querySelectorAll("svg, img").forEach(x => x.remove());
+                const img = document.createElement("img");
+                img.src = "https://files.easy-orders.net/1765165976671910310.png";
+                img.style.width = "25px";
+                img.style.height = "25px";
+                img.alt = "Search";
+                img.classList.add("custom-header-icon");
+                searchParent.style.marginRight = "-5px";
+                searchParent.insertBefore(img, searchParent.firstChild);
+            });
+            
+            // Cart Button
+            Utils.waitFor("button.group.relative.flex.items-center", (cartBtn) => {
+                const svg = cartBtn.querySelector("svg");
+                if (svg) svg.remove();
+                const img = document.createElement("img");
+                img.src = "https://files.easy-orders.net/1765165976715042792.png";
+                img.style.width = "22px";
+                img.style.height = "22px";
+                img.alt = "Cart";
+                img.classList.add("custom-header-icon");
+                cartBtn.style.marginRight = "20px";
+                cartBtn.insertBefore(img, cartBtn.firstChild);
+            });
+            
+            // Icons Wrapper
+            Utils.waitFor(".ms-auto.flex.items-center", (iconsWrapper) => {
+                iconsWrapper.style.justifySelf = "end";
+                iconsWrapper.style.display = "flex";
+                iconsWrapper.style.alignItems = "center";
+                iconsWrapper.style.gap = "15px";
+            });
+            
+            // Logo Centering
+            Utils.waitFor(".default_header_logo", (logoArea) => {
+                logoArea.style.justifySelf = "center";
+            });
+            
+            // Scroll Logic
+            this.initScrollBehavior();
+        },
+        
+        initScrollBehavior() {
+            let lastPath = "";
+            const headerWrapper = document.querySelector('.sticky.top-0');
+            const body = document.body;
+            
+            const handleScroll = () => {
+                if (!body.classList.contains('is-home-page')) return;
+                const scrollPercentage = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+                
+                if (scrollPercentage > 1) {
+                    headerWrapper.classList.add('header-scrolled');
+                    headerWrapper.classList.remove('header-transparent');
+                } else {
+                    headerWrapper.classList.add('header-transparent');
+                    headerWrapper.classList.remove('header-scrolled');
+                }
+            };
+            
+            const checkUrlChange = () => {
+                const currentPath = window.location.pathname;
+                if (currentPath !== lastPath) {
+                    lastPath = currentPath;
+                    if (currentPath === "/" || currentPath === "/index.html") {
+                        body.classList.add('is-home-page');
+                        handleScroll();
+                        window.addEventListener('scroll', handleScroll);
+                    } else {
+                        body.classList.remove('is-home-page');
+                        headerWrapper.classList.remove('header-transparent', 'header-scrolled');
+                        window.removeEventListener('scroll', handleScroll);
+                    }
+                }
+            };
+            
+            checkUrlChange();
+            setInterval(checkUrlChange, 200);
+        }
+    };
+    
+    // ========================================
+    // FOOTER MODULE
+    // ========================================
+    const Footer = {
+        init() {
+            this.addMobileContent();
+            this.addDesktopContent();
+            this.addLogos();
+        },
+        
+        addMobileContent() {
+            Utils.waitFor(".flex.flex-col.gap-6.mt-6", (socialBlock) => {
+                if (document.querySelector(".km-footer-extra")) return;
+                
+                const wrapper = document.createElement("div");
+                wrapper.className = "km-footer-extra";
+                
+                const payment = document.createElement("div");
+                payment.className = "km-payment-icons";
+                payment.innerHTML = `
+                    <img src="https://white.a.bigcontent.io/v1/static/mastercard_1" alt="mastercard">
+                    <img src="https://white.a.bigcontent.io/v1/static/visa_1" alt="visa">
+                    <img src="https://white.a.bigcontent.io/v1/static/payPal_2" alt="paypal">
+                    <img src="https://white.a.bigcontent.io/v1/static/applePay" alt="applepay">
+                    <img src="https://white.a.bigcontent.io/v1/static/google-pay_1" alt="googlepay">
+                `;
+                
+                const legal = document.createElement("div");
+                legal.className = "km-legal-links";
+                legal.innerHTML = `
+                    <a href="/pages/terms-and-conditions">Terms & Conditions</a>
+                    <span class="divider">•</span>
+                    <a href="/pages/privacy-policy">Privacy Policy</a>
+                    <span class="divider">•</span>
+                    <a href="/pages/cookie-policy">Cookie Policy</a>
+                    <span class="divider">•</span>
+                    <a href="/pages/accessibility">Accessibility</a>
+                `;
+                
+                const copyrightD = document.createElement("div");
+                copyrightD.className = "km-copyright-dt";
+                copyrightD.innerHTML = `© ${new Date().getFullYear()} Le Perfume.`;
+                
+                wrapper.appendChild(legal);
+                wrapper.appendChild(copyrightD);
+                wrapper.appendChild(payment);
+                socialBlock.insertAdjacentElement("afterend", wrapper);
+            });
+        },
+        
+        addDesktopContent() {
+            Utils.waitFor(".hidden.lg\\:grid.lg\\:grid-cols-4", (desktopGrid) => {
+                if (document.querySelector(".km-footer-extra-dt")) return;
+                
+                const wrapperDT = document.createElement("div");
+                wrapperDT.className = "km-footer-extra-dt";
+                
+                const paymentDT = document.createElement("div");
+                paymentDT.className = "km-payment-icons-dt";
+                paymentDT.innerHTML = `
+                    <img src="https://white.a.bigcontent.io/v1/static/mastercard_1">
+                    <img src="https://white.a.bigcontent.io/v1/static/visa_1">
+                    <img src="https://white.a.bigcontent.io/v1/static/payPal_2">
+                    <img src="https://white.a.bigcontent.io/v1/static/applePay">
+                    <img src="https://white.a.bigcontent.io/v1/static/google-pay_1">
+                `;
+                
+                const legalDT = document.createElement("div");
+                legalDT.className = "km-legal-links-dt";
+                legalDT.innerHTML = `
+                    <a href="/pages/terms-and-conditions">Terms & Conditions</a>
+                    <span class="divider">•</span>
+                    <a href="/pages/privacy-policy">Privacy Policy</a>
+                    <span class="divider">•</span>
+                    <a href="/pages/cookie-policy">Cookie Policy</a>
+                    <span class="divider">•</span>
+                    <a href="/pages/accessibility">Accessibility</a>
+                `;
+                
+                const copyrightDT = document.createElement("div");
+                copyrightDT.className = "km-copyright-dt";
+                copyrightDT.innerHTML = `© ${new Date().getFullYear()} Le Perfume — All Rights Reserved.`;
+                
+                wrapperDT.appendChild(paymentDT);
+                wrapperDT.appendChild(legalDT);
+                wrapperDT.appendChild(copyrightDT);
+                desktopGrid.insertAdjacentElement("afterend", wrapperDT);
+            });
+        },
+        
+        addLogos() {
+            Utils.waitFor("footer", (footer) => {
+                const mobileColumn = footer.querySelector(".lg\\:hidden > div:first-child");
+                if (mobileColumn && !footer.querySelector(".km-footer-img-mobile")) {
+                    const img = document.createElement("img");
+                    img.src = "https://files.easy-orders.net/1765420588341957344.png";
+                    img.className = "km-footer-img-mobile";
+                    img.style.width = "140px";
+                    img.style.margin = "11px 6px -8px";
+                    img.style.display = "block";
+                    mobileColumn.insertAdjacentElement("afterbegin", img);
+                }
+                
+                const desktopColumn = footer.querySelector(".lg\\:grid-cols-4 > div:first-child");
+                if (desktopColumn && !footer.querySelector(".km-footer-img-desktop")) {
+                    const imgDT = document.createElement("img");
+                    imgDT.src = "https://files.easy-orders.net/1765420588341957344.png";
+                    imgDT.className = "km-footer-img-desktop";
+                    imgDT.style.width = "160px";
+                    imgDT.style.marginBottom = "18px";
+                    imgDT.style.display = "block";
+                    imgDT.style.justifySelf = "left";
+                    desktopColumn.insertAdjacentElement("afterbegin", imgDT);
+                }
+            });
+        }
+    };
+    
+    // ========================================
+    // PRODUCT ACCORDION MODULE
+    // ========================================
+    const ProductAccordion = {
+        config: {
+            sourceSelector: '.product_description',
+            targetSelector: '.mt-5.flex.flex-col',
+            accordionClass: 'km-accordion-desc'
+        },
+        
+        init() {
+            const observer = new MutationObserver(() => {
+                this.injectAccordion();
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+            
+            this.injectAccordion();
+        },
+        
+        injectAccordion() {
+            if (document.querySelector(`.${this.config.accordionClass}`)) return;
+            
+            const sourceElement = document.querySelector(this.config.sourceSelector);
+            const targetContainer = document.querySelector(this.config.targetSelector);
+            
+            if (sourceElement && targetContainer) {
+                const descContent = sourceElement.innerHTML;
+                const accordion = document.createElement("div");
+                accordion.className = this.config.accordionClass;
+                accordion.innerHTML = `
+                    <button class="km-acc-header">
+                        <div class="km-acc-title">
+                            <img src="https://files.easy-orders.net/1765413887722331080.png" alt="icon" class="km-acc-icon" />
+                            <span>Description</span>
+                        </div>
+                        <img class="arrow-icon" 
+                             src="https://img.icons8.com/material-rounded/24/expand-arrow--v1.png" 
+                             alt="arrow" />
+                    </button>
+                    <div class="km-acc-body">
+                        <div class="km-acc-content">
+                            ${descContent}
+                        </div>
+                    </div>
+                `;
+                
+                targetContainer.parentNode.insertBefore(accordion, targetContainer);
+                
+                const header = accordion.querySelector(".km-acc-header");
+                const body = accordion.querySelector(".km-acc-body");
+                const arrow = accordion.querySelector(".arrow-icon");
+                
+                header.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const isOpen = header.classList.toggle("open");
+                    arrow.classList.toggle("rotate");
+                    
+                    if (isOpen) {
+                        body.style.maxHeight = body.scrollHeight + "px";
+                    } else {
+                        body.style.maxHeight = "0";
+                    }
+                });
+                
+                console.log("✅ Accordion Injected Successfully");
+            }
+        }
+    };
+    
+    // ========================================
+    // INITIALIZE ALL MODULES
+    // ========================================
+    document.addEventListener('DOMContentLoaded', () => {
+        try {
+            Header.init();
+            Footer.init();
+            ProductAccordion.init();
+            console.log('✅ All modules initialized successfully!');
+        } catch (error) {
+            console.error('❌ Initialization error:', error);
+        }
+    });
+})();
+</script>
+
