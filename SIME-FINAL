@@ -31,11 +31,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // ب) زر المنيو
     waitFor("button.bg-white.py-2.lg\\:hidden", function (menuBtn) {
         menuBtn.querySelectorAll("svg, img").forEach(x => x.remove());
+         menuBtn.classList.remove("bg-white");
+
         
         const img = document.createElement("img");
         img.src = "https://files.easy-orders.net/1765166038824688914.png";
         img.style.width = "23px";
         img.style.height = "23px";
+        
+        
+  
         img.alt = "Menu";
         img.classList.add("custom-header-icon"); // كلاس للتحكم في اللون
 
@@ -134,6 +139,144 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function waitFor(selector, callback) {
+        const check = setInterval(() => {
+            const el = document.querySelector(selector);
+            if (el) {
+                clearInterval(check);
+                callback(el);
+            }
+        }, 200);
+    }
+
+    // ننتظر social icons تظهر
+    waitFor(".flex.flex-col.gap-6.mt-6", function (socialBlock) {
+
+        // منع التكرار
+        if (document.querySelector(".km-footer-extra")) return;
+
+        // === Parent Wrapper ===
+        const wrapper = document.createElement("div");
+        wrapper.className = "km-footer-extra";
+
+        // === Child 1: Payment icons container ===
+        const payment = document.createElement("div");
+        payment.className = "km-payment-icons";
+        payment.innerHTML = `
+            <img src="https://white.a.bigcontent.io/v1/static/mastercard_1" alt="mastercard">
+            <img src="https://white.a.bigcontent.io/v1/static/visa_1" alt="visa">
+            <img src="https://white.a.bigcontent.io/v1/static/payPal_2" alt="paypal">
+            <img src="https://white.a.bigcontent.io/v1/static/applePay" alt="applepay">
+            <img src="https://white.a.bigcontent.io/v1/static/google-pay_1" alt="googlepay">
+        `;
+
+        // === Child 2: Legal links container ===
+        const legal = document.createElement("div");
+        legal.className = "km-legal-links";
+        legal.innerHTML = `
+            <a href="/pages/terms-and-conditions">Terms & Conditions</a>
+            <span class="divider">•</span>
+            <a href="/pages/privacy-policy">Privacy Policy</a>
+            <span class="divider">•</span>
+            <a href="/pages/cookie-policy">Cookie Policy</a>
+            <span class="divider">•</span>
+            <a href="/pages/accessibility">Accessibility</a>
+        `;
+        const copyrightD = document.createElement("div");
+        copyrightD.className = "km-copyright-dt";
+        copyrightD.innerHTML = `
+            © ${new Date().getFullYear()} Le Perfume.
+        `;
+
+        // إضافة الأطفال للـ parent
+        
+        wrapper.appendChild(legal);
+        wrapper.appendChild(copyrightD);
+        wrapper.appendChild(payment);
+
+
+        // إدراج الـ wrapper بعد بلوك السوشيال
+        socialBlock.insertAdjacentElement("afterend", wrapper);
+    });
+
+});
+</script>
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function waitFor(selector, callback) {
+        const check = setInterval(() => {
+            const el = document.querySelector(selector);
+            if (el) {
+                clearInterval(check);
+                callback(el);
+            }
+        }, 200);
+    }
+
+    /* ======================================================
+       1) نسخة الديسكتوب — داخل قسم hidden lg:grid
+       ====================================================== */
+
+    waitFor(".hidden.lg\\:grid.lg\\:grid-cols-4", function (desktopGrid) {
+
+        if (document.querySelector(".km-footer-extra-dt")) return;
+
+        // Parent wrapper
+        const wrapperDT = document.createElement("div");
+        wrapperDT.className = "km-footer-extra-dt";
+
+        // Payment icons
+        const paymentDT = document.createElement("div");
+        paymentDT.className = "km-payment-icons-dt";
+        paymentDT.innerHTML = `
+            <img src="https://white.a.bigcontent.io/v1/static/mastercard_1">
+            <img src="https://white.a.bigcontent.io/v1/static/visa_1">
+            <img src="https://white.a.bigcontent.io/v1/static/payPal_2">
+            <img src="https://white.a.bigcontent.io/v1/static/applePay">
+            <img src="https://white.a.bigcontent.io/v1/static/google-pay_1">
+        `;
+
+        // Legal links
+        const legalDT = document.createElement("div");
+        legalDT.className = "km-legal-links-dt";
+        legalDT.innerHTML = `
+            <a href="/pages/terms-and-conditions">Terms & Conditions</a>
+            <span class="divider">•</span>
+            <a href="/pages/privacy-policy">Privacy Policy</a>
+            <span class="divider">•</span>
+            <a href="/pages/cookie-policy">Cookie Policy</a>
+            <span class="divider">•</span>
+            <a href="/pages/accessibility">Accessibility</a>
+        `;
+
+        // Copyright block
+        const copyrightDT = document.createElement("div");
+        copyrightDT.className = "km-copyright-dt";
+        copyrightDT.innerHTML = `
+            © ${new Date().getFullYear()} Le Perfume — All Rights Reserved.
+        `;
+
+        // Append children
+        wrapperDT.appendChild(paymentDT);
+        wrapperDT.appendChild(legalDT);
+        wrapperDT.appendChild(copyrightDT);
+
+        // Insert after grid
+        desktopGrid.insertAdjacentElement("afterend", wrapperDT);
+    });
+
+});
+
+</script>
 <style>
 /* 1. تنظيف الهيدر (إخفاء SVG القديم) */
 /* ======================================================
@@ -198,16 +341,7 @@ body.is-home-page .sticky.top-0.header-transparent .custom-header-icon {
 /* -----------------------------------------------------------
    ج) الحالة عند السكرول (Scrolled State) - التعديل الجديد
    ----------------------------------------------------------- */
-body.is-home-page .sticky.top-0.header-scrolled {
-    background-image: url("https://files.easy-orders.net/1765172933978546825.webp") !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    background-color: transparent !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.18) !important;
-    position: relative;
-    overflow: hidden;
-}
+
 
 /* نشيل أي خلفية بيضا جوه الهيدر في وضع الـ scroll */
 body.is-home-page .sticky.top-0.header-scrolled .default_header,
@@ -219,7 +353,6 @@ body.is-home-page .sticky.top-0.header-scrolled .bg-white {
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-color: transparent !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.18) !important;
     position: relative;
     overflow: hidden;
 }
@@ -256,6 +389,8 @@ body.is-home-page .sticky.top-0.header-scrolled {
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-color: transparent !important;
+    position: relative;
+    overflow: hidden;
 }
 
 footer {
@@ -419,8 +554,8 @@ body:not(.is-home-page) .sticky.top-0 .custom-header-icon {
 .footer.bg-white.bg-skin-primary.text-skin-a11y {
     color: #F0EAD6;
 }
-.lg\:hidden {
-    color: #F0EAD6;
+.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8.py-8.lg\:py-12 {
+    COLOR: #F0EAD6;
 }
 .flex.flex-wrap.gap-3 {
     filter: invert(1) brightness(90%);
@@ -440,148 +575,8 @@ body:not(.is-home-page) .sticky.top-0 .custom-header-icon {
         text-align: center;
     }
 }
-.max-w-7xl.mx-auto.px-4.sm\:px-6.lg\:px-8.py-8.lg\:py-12 {
-    color: #F0EAD6;
-}
+
 .flex.flex-1.flex-col {
     background-color: #e9e5e366;
 }
 </style>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    function waitFor(selector, callback) {
-        const check = setInterval(() => {
-            const el = document.querySelector(selector);
-            if (el) {
-                clearInterval(check);
-                callback(el);
-            }
-        }, 200);
-    }
-
-    // ننتظر social icons تظهر
-    waitFor(".flex.flex-col.gap-6.mt-6", function (socialBlock) {
-
-        // منع التكرار
-        if (document.querySelector(".km-footer-extra")) return;
-
-        // === Parent Wrapper ===
-        const wrapper = document.createElement("div");
-        wrapper.className = "km-footer-extra";
-
-        // === Child 1: Payment icons container ===
-        const payment = document.createElement("div");
-        payment.className = "km-payment-icons";
-        payment.innerHTML = `
-            <img src="https://white.a.bigcontent.io/v1/static/mastercard_1" alt="mastercard">
-            <img src="https://white.a.bigcontent.io/v1/static/visa_1" alt="visa">
-            <img src="https://white.a.bigcontent.io/v1/static/payPal_2" alt="paypal">
-            <img src="https://white.a.bigcontent.io/v1/static/applePay" alt="applepay">
-            <img src="https://white.a.bigcontent.io/v1/static/google-pay_1" alt="googlepay">
-        `;
-
-        // === Child 2: Legal links container ===
-        const legal = document.createElement("div");
-        legal.className = "km-legal-links";
-        legal.innerHTML = `
-            <a href="/pages/terms-and-conditions">Terms & Conditions</a>
-            <span class="divider">•</span>
-            <a href="/pages/privacy-policy">Privacy Policy</a>
-            <span class="divider">•</span>
-            <a href="/pages/cookie-policy">Cookie Policy</a>
-            <span class="divider">•</span>
-            <a href="/pages/accessibility">Accessibility</a>
-        `;
-        const copyrightD = document.createElement("div");
-        copyrightD.className = "km-copyright-dt";
-        copyrightD.innerHTML = `
-            © ${new Date().getFullYear()} Le Perfume.
-        `;
-
-        // إضافة الأطفال للـ parent
-        
-        wrapper.appendChild(legal);
-        wrapper.appendChild(copyrightD);
-        wrapper.appendChild(payment);
-
-
-        // إدراج الـ wrapper بعد بلوك السوشيال
-        socialBlock.insertAdjacentElement("afterend", wrapper);
-    });
-
-});
-</script>
-
-
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    function waitFor(selector, callback) {
-        const check = setInterval(() => {
-            const el = document.querySelector(selector);
-            if (el) {
-                clearInterval(check);
-                callback(el);
-            }
-        }, 200);
-    }
-
-    /* ======================================================
-       1) نسخة الديسكتوب — داخل قسم hidden lg:grid
-       ====================================================== */
-
-    waitFor(".hidden.lg\\:grid.lg\\:grid-cols-4", function (desktopGrid) {
-
-        if (document.querySelector(".km-footer-extra-dt")) return;
-
-        // Parent wrapper
-        const wrapperDT = document.createElement("div");
-        wrapperDT.className = "km-footer-extra-dt";
-
-        // Payment icons
-        const paymentDT = document.createElement("div");
-        paymentDT.className = "km-payment-icons-dt";
-        paymentDT.innerHTML = `
-            <img src="https://white.a.bigcontent.io/v1/static/mastercard_1">
-            <img src="https://white.a.bigcontent.io/v1/static/visa_1">
-            <img src="https://white.a.bigcontent.io/v1/static/payPal_2">
-            <img src="https://white.a.bigcontent.io/v1/static/applePay">
-            <img src="https://white.a.bigcontent.io/v1/static/google-pay_1">
-        `;
-
-        // Legal links
-        const legalDT = document.createElement("div");
-        legalDT.className = "km-legal-links-dt";
-        legalDT.innerHTML = `
-            <a href="/pages/terms-and-conditions">Terms & Conditions</a>
-            <span class="divider">•</span>
-            <a href="/pages/privacy-policy">Privacy Policy</a>
-            <span class="divider">•</span>
-            <a href="/pages/cookie-policy">Cookie Policy</a>
-            <span class="divider">•</span>
-            <a href="/pages/accessibility">Accessibility</a>
-        `;
-
-        // Copyright block
-        const copyrightDT = document.createElement("div");
-        copyrightDT.className = "km-copyright-dt";
-        copyrightDT.innerHTML = `
-            © ${new Date().getFullYear()} Le Perfume — All Rights Reserved.
-        `;
-
-        // Append children
-        wrapperDT.appendChild(paymentDT);
-        wrapperDT.appendChild(legalDT);
-        wrapperDT.appendChild(copyrightDT);
-
-        // Insert after grid
-        desktopGrid.insertAdjacentElement("afterend", wrapperDT);
-    });
-
-});
-
-</script>
-
