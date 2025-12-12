@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<style>
+    /* =========================================
+       1. حاوية الصورة
+       ========================================= */
+    .shop-look-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        overflow: visible; /* ضروري لظهور الكروت */
+    }
+
+    .shop-look-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+    }
+
+    /* =========================================
+       2. النقاط (Hotspots) - تصميم نابض
+       ========================================= */
+    .hotspot-point {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        z-index: 20; /* فوق الصورة */
+        transform: translate(-50%, -50%);
+        background: transparent;
+        border: none;
+        padding: 0;
+        outline: none;
+    }
+
+    /* النقطة البيضاء */
+    .hotspot-point::before {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 12px; height: 12px;
+        background-color: #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+
+    /* تأثير النبض */
+    .hotspot-point::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 100%; height: 100%;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: hotspot-pulse 2s infinite;
+        z-index: 1;
+    }
+
+    @keyframes hotspot-pulse {
+        0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+        100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+    }
+
+    /* =========================================
+       3. كارت المنتج (Popup Card)
+       ========================================= */
+    .hotspot-product-card {
+        position: absolute;
+        bottom: 45px; /* المسافة فوق النقطة */
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        width: 220px;
+        background-color: #fff;
+        padding: 12px;
+        border-radius: 8px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        text-align: center;
+        
+        /* إخفاء افتراضي */
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        z-index: 30;
+        pointer-events: none; /* لمنع التفاعل وهو مخفي */
+    }
+
+    /* سهم الكارت */
+    .hotspot-product-card::after {
+        content: '';
+        position: absolute;
+        bottom: -8px; left: 50%;
+        transform: translateX(-50%);
+        border-width: 8px 8px 0;
+        border-style: solid;
+        border-color: #fff transparent transparent transparent;
+    }
+
+    /* === حالة التفعيل (Active Class) === */
+    /* الكلاس يُضاف للجافاسكريبت للأب (.hotspot-point) */
+    .hotspot-point.active-spot .hotspot-product-card {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+    }
+
+    /* تنسيق محتوى الكارت */
+    .hotspot-img {
+        width: 100%; height: 140px; object-fit: cover;
+        border-radius: 4px; margin-bottom: 8px;
+    }
+    .hotspot-title {
+        font-size: 14px; font-weight: bold; color: #000;
+        margin-bottom: 4px; display: block; text-decoration: none;
+    }
+    .hotspot-price {
+        font-size: 13px; color: #555; display: block; margin-bottom: 10px;
+    }
+    .hotspot-btn {
+        display: block; width: 100%; padding: 8px 0;
+        background: #000; color: #fff; text-decoration: none;
+        font-size: 12px; border-radius: 4px; font-weight: bold;
+    }
+    
+    /* إصلاح للموبايل: الكروت تظهر بشكل أفضل */
+    @media (max-width: 768px) {
+        .hotspot-product-card {
+            width: 180px;
+        }
+        .hotspot-img { height: 100px;
+object-fit: contain; }
+
+    }
+</style>
+</head>
+<body>
+
+<div class="shop-look-wrapper">
+    
+    <img src="https://files.easy-orders.net/1764643765145398282.png" class="shop-look-image" alt="Shop The Look">
+
+    <button class="hotspot-point" style="top: 51.46%; left: 52.59%;">
+        <div class="hotspot-product-card">
+            <img src="https://files.easy-orders.net/1764860975962195531.png" class="hotspot-img">
+            <a href="https://kilimmasr.myeasyorders.com/products/Navira-Kilim-Rug" class="hotspot-title">Navira Kilim Rug</a>
+            <span class="hotspot-price">500 EGP</span>
+            <a href="https://kilimmasr.myeasyorders.com/products/Navira-Kilim-Rug" class="hotspot-btn">View</a>
+        </div>
+    </button>
+
+    <button class="hotspot-point" style="top: 76.69%; left: 26.81%;">
+        <div class="hotspot-product-card">
+            <img src="https://files.easy-orders.net/1764862224160754979.jpeg" class="hotspot-img">
+            <a href="https://kilimmasr.myeasyorders.com/products/Mirage-In-Biege-Kilim-Rug" class="hotspot-title">Mirage In Biege Kilim Rug</a>
+            <span class="hotspot-price">350 EGP</span>
+            <a href="https://kilimmasr.myeasyorders.com/products/Mirage-In-Biege-Kilim-Rug" class="hotspot-btn">View</a>
+        </div>
+    </button>
+
+</div>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    // دالة تعمل فور النقر على أي مكان في الصفحة
+    document.addEventListener('click', function(e) {
+        
+        // 1. هل النقر حدث على "نقطة" (أو بداخلها)؟
+        const clickedSpot = e.target.closest('.hotspot-point');
+        
+        // 2. هل النقر حدث داخل "الكارت" نفسه؟ (لمنع الإغلاق عند محاولة الشراء)
+        const clickedCard = e.target.closest('.hotspot-product-card');
+
+        if (clickedCard) {
+            // إذا ضغط داخل الكارت، لا تفعل شيئاً (اتركه مفتوحاً)
+            return;
+        }
+
+        if (clickedSpot) {
+            // === المستخدم ضغط على النقطة ===
+            
+            // تحقق هل هي مفتوحة أصلاً؟
+            const isAlreadyActive = clickedSpot.classList.contains('active-spot');
+
+            // أغلق جميع النقاط الأخرى أولاً
+            document.querySelectorAll('.hotspot-point.active-spot').forEach(spot => {
+                spot.classList.remove('active-spot');
+            });
+
+            // إذا لم تكن مفتوحة، افتحها
+            if (!isAlreadyActive) {
+                clickedSpot.classList.add('active-spot');
+            }
+
+        } else {
+            // === المستخدم ضغط في الفراغ (خارج النقاط والكروت) ===
+            // أغلق كل شيء
+            document.querySelectorAll('.hotspot-point.active-spot').forEach(spot => {
+                spot.classList.remove('active-spot');
+            });
+        }
+    });
+})();
+
+
+</script>
